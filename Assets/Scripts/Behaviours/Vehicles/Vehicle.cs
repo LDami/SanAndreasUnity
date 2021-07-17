@@ -153,6 +153,11 @@ namespace SanAndreasUnity.Behaviours.Vehicles
 
         List<Ped> m_lastPreparedPeds = new List<Ped>();
 
+        /// <summary>
+        ///     Used for enter/exit animation
+        /// </summary>
+        public Importing.Animation.AnimGroup animGroup;
+
         public string DescriptionForLogging
         {
             get

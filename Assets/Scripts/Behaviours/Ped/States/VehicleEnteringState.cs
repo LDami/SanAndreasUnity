@@ -4,6 +4,7 @@ using SanAndreasUnity.Behaviours.Vehicles;
 using SanAndreasUnity.Behaviours.World;
 using SanAndreasUnity.Importing.Animation;
 using System.Linq;
+using System;
 
 namespace SanAndreasUnity.Behaviours.Peds.States
 {
@@ -96,22 +97,70 @@ namespace SanAndreasUnity.Behaviours.Peds.States
 		{
 			var animIndex = seat.IsLeftHand ? AnimIndex.GetInLeft : AnimIndex.GetInRight;
 
-			m_model.VehicleParentOffset = Vector3.Scale(m_model.GetAnim(AnimGroup.Car, animIndex).RootEnd, new Vector3(-1, -1, -1));
+            if (this.CurrentVehicle.animGroup == AnimGroup.Tank)
+                m_model.VehicleParentOffset = new Vector3(-2.0f, 0.1f, 0.4f);
+            else
+                m_model.VehicleParentOffset = Vector3.Scale(m_model.GetAnim(AnimGroup.Car, animIndex).RootEnd, new Vector3(-1, -1, -1));
 
-			if (!immediate)
+            if (!immediate)
 			{
-				var animState = m_model.PlayAnim(AnimGroup.Car, animIndex, PlayMode.StopAll);
-				animState.wrapMode = WrapMode.Once;
+                AnimationState animState;
+                if (this.CurrentVehicle.animGroup == AnimGroup.Tank)
+                {
+                    Transform door = this.CurrentVehicle.transform.FindChildRecursive("door_lf_dummy").transform;
 
-				// wait until anim is finished or vehicle is destroyed
-				while (animState != null && animState.enabled && this.CurrentVehicle != null)
-				{
-					yield return new WaitForEndOfFrame();
-				}
+                    animState = m_model.PlayAnim("tank", "TANK_align_LHS", PlayMode.StopAll);
+                    animState.wrapMode = WrapMode.Once;
+                    // wait until anim is finished or vehicle is destroyed
+                    while (animState != null && animState.enabled && this.CurrentVehicle != null)
+                    {
+                        yield return new WaitForEndOfFrame();
+                    }
+
+                    m_model.VehicleParentOffset = new Vector3(-3.1f, -1.1f, -0.14f);
+                    animState = m_model.PlayAnim("tank", "TANK_open_LHS", PlayMode.StopAll);
+                    animState.wrapMode = WrapMode.Once;
+                    //StartCoroutine(OpenTankDoor(door));
+                    // wait until anim is finished or vehicle is destroyed
+                    while (animState != null && animState.enabled && this.CurrentVehicle != null)
+                    {
+                        yield return new WaitForEndOfFrame();
+                    }
+
+                    m_model.VehicleParentOffset = new Vector3(-4.24f, -2.5f, -0.14f);
+                    animState = m_model.PlayAnim("tank", "TANK_getin_LHS", PlayMode.StopAll);
+                    animState.wrapMode = WrapMode.Once;
+                    // wait until anim is finished or vehicle is destroyed
+                    while (animState != null && animState.enabled && this.CurrentVehicle != null)
+                    {
+                        yield return new WaitForEndOfFrame();
+                    }
+
+                    m_model.VehicleParentOffset = Vector3.zero;
+                    animState = m_model.PlayAnim("tank", "TANK_close_LHS", PlayMode.StopAll);
+                    animState.wrapMode = WrapMode.Once;
+                    //StartCoroutine(CloseTankDoor(door));
+                    // wait until anim is finished or vehicle is destroyed
+                    while (animState != null && animState.enabled && this.CurrentVehicle != null)
+                    {
+                        yield return new WaitForEndOfFrame();
+                    }
+                }
+                else
+                {
+                    animState = m_model.PlayAnim(this.CurrentVehicle.animGroup, animIndex, PlayMode.StopAll);
+                    animState.wrapMode = WrapMode.Once;
+                }
+
+                // wait until anim is finished or vehicle is destroyed
+                while (animState != null && animState.enabled && this.CurrentVehicle != null)
+                {
+                    yield return new WaitForEndOfFrame();
+                }
 			}
-
-			// check if vehicle is alive
-			if (null == this.CurrentVehicle)
+            
+            // check if vehicle is alive
+            if (null == this.CurrentVehicle)
 			{
 				// vehicle destroyed in the meantime ? hmm... ped is a child of vehicle, so it should be
 				// destroyed as well ?
@@ -128,8 +177,7 @@ namespace SanAndreasUnity.Behaviours.Peds.States
 			if (m_isServer)
 				m_ped.GetStateOrLogError<VehicleSittingState> ().EnterVehicle(this.CurrentVehicle, seat);
 
-		}
-
-	}
+        }
+    }
 
 }

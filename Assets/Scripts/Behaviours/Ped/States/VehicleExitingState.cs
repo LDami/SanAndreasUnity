@@ -82,11 +82,22 @@ namespace SanAndreasUnity.Behaviours.Peds.States
 
 			var animIndex = seat.IsLeftHand ? AnimIndex.GetOutLeft : AnimIndex.GetOutRight;
 
-			m_model.VehicleParentOffset = Vector3.Scale(m_model.GetAnim(AnimGroup.Car, animIndex).RootStart, new Vector3(-1, -1, -1));
+            if (this.CurrentVehicle.animGroup == AnimGroup.Tank)
+                m_model.VehicleParentOffset = new Vector3(-2.0f, 0.1f, 0.4f);
+            else
+                m_model.VehicleParentOffset = Vector3.Scale(m_model.GetAnim(AnimGroup.Car, animIndex).RootEnd, new Vector3(-1, -1, -1));
 
-			if (!immediate)
-			{
-				var animState = m_model.PlayAnim(AnimGroup.Car, animIndex, PlayMode.StopAll);
+            if (!immediate)
+            {
+                AnimationState animState;
+                if (this.CurrentVehicle.animGroup == AnimGroup.Tank)
+                {
+                    animState = m_model.PlayAnim("tank", "TANK_getout_LHS", PlayMode.StopAll);
+                    //StartCoroutine(OpenTankDoor(door));
+                }
+                else
+                    animState = m_model.PlayAnim(this.CurrentVehicle.animGroup, animIndex, PlayMode.StopAll);
+
 				animState.wrapMode = WrapMode.Once;
 
 				// wait until anim finishes or stops

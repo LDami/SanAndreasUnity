@@ -10,6 +10,7 @@ namespace SanAndreasUnity.Importing.Animation
         None = 0,
         WalkCycle,
         Car,
+        Tank,
         MyWalkCycle,
 
         Colt45,

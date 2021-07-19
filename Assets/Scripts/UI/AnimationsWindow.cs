@@ -252,7 +252,9 @@ namespace SanAndreasUnity.UI {
 				var clip = clips [i];
 				if (playerExists)
 				{
-					if (GUILayout.Button (clip.Name, GUILayout.Height(animHeight)))
+                    AnimId anim = new AnimId(package.FileName, clip.Name);
+
+                    if (GUILayout.Button (clip.Name, GUILayout.Height(animHeight)))
 					{
 						// play this anim
 						this.PlayAnim(new AnimId (package.FileName, clip.Name));

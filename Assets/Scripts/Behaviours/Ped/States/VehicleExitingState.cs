@@ -71,17 +71,17 @@ namespace SanAndreasUnity.Behaviours.Peds.States
 			//	Net.NetManager.RemoveAuthority(this.CurrentVehicle.gameObject);
 			}
 
-			m_coroutine = StartCoroutine (ExitVehicleAnimation (m_isExitingImmediately));
+			//m_coroutine = StartCoroutine (ExitVehicleAnimation (m_isExitingImmediately));
 
 		}
-
+        /*
 		private System.Collections.IEnumerator ExitVehicleAnimation(bool immediate)
 		{
 
 			var seat = this.CurrentVehicleSeat;
 
 			var animIndex = seat.IsLeftHand ? AnimIndex.GetOutLeft : AnimIndex.GetOutRight;
-
+            /*
             if (this.CurrentVehicle.animGroup == AnimGroup.Tank)
                 m_model.VehicleParentOffset = new Vector3(-2.0f, 0.1f, 0.4f);
             else
@@ -93,7 +93,8 @@ namespace SanAndreasUnity.Behaviours.Peds.States
                 if (this.CurrentVehicle.animGroup == AnimGroup.Tank)
                 {
                     animState = m_model.PlayAnim("tank", "TANK_getout_LHS", PlayMode.StopAll);
-                    //StartCoroutine(OpenTankDoor(door));
+                    VehicleDoor door = this.CurrentVehicle._doors.First();
+                    door.Open();
                 }
                 else
                     animState = m_model.PlayAnim(this.CurrentVehicle.animGroup, animIndex, PlayMode.StopAll);
@@ -104,7 +105,6 @@ namespace SanAndreasUnity.Behaviours.Peds.States
 				while (animState != null && animState.enabled)
 					yield return new WaitForEndOfFrame();
 			}
-
 			// ped now completely exited the vehicle
 
 
@@ -120,7 +120,7 @@ namespace SanAndreasUnity.Behaviours.Peds.States
 				m_ped.SwitchState<StandState> ();
 
 		}
-
+    */
 	}
 
 }

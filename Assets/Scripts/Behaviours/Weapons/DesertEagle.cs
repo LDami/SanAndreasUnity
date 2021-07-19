@@ -14,11 +14,11 @@ namespace SanAndreasUnity.Behaviours.Weapons
 			this.CrouchSpineRotationOffset = WeaponsManager.Instance.crouchSpineRotationOffset2;
 		}
 
-		public override AnimId IdleAnim {
-			get {
-				return new AnimId (AnimGroup.WalkCycle, AnimIndex.Idle);
-			}
-		}
+        public override AnimId IdleAnim {
+	        get {
+		        return new AnimId (AnimGroup.WalkCycle, AnimIndex.Idle);
+	        }
+        }
 
 		public override AnimId WalkAnim {
 			get {

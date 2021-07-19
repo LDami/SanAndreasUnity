@@ -10,6 +10,7 @@ namespace SanAndreasUnity.Importing.Animation
         None = 0,
         WalkCycle,
         Car,
+        Truck,
         Tank,
         MyWalkCycle,
 
@@ -55,14 +56,49 @@ namespace SanAndreasUnity.Importing.Animation
         SitPassenger = 1,
         DriveLeft = 2,
         DriveRight = 3,
-        GetInLeft = 4,
-        GetInRight = 5,
-        GetOutLeft = 6,
-        GetOutRight = 7,
-		CAR_closedoor_LHS = 8,
+        CAR_align_LHS = 4,
+        CAR_align_RHS,
+        CAR_open_LHS,
+        CAR_open_RHS,
+        CAR_pullout_LHS,
+        CAR_pullout_RHS,
+        CAR_getin_LHS,
+        CAR_getin_RHS,
+        CAR_jackedLHS,
+        CAR_jackedRHS,
+        CAR_getout_LHS,
+        CAR_getout_RHS,
+        CAR_closedoor_LHS,
 		CAR_closedoor_RHS,
 		CAR_close_LHS,
 		CAR_close_RHS,
+
+        // Truck
+        TRUCK_ALIGN_LHS = 0,
+        TRUCK_ALIGN_RHS,
+        TRUCK_open_LHS,
+        TRUCK_open_RHS,
+        TRUCK_pullout_LHS,
+        TRUCK_pullout_RHS,
+        TRUCK_getin_LHS,
+        TRUCK_getin_RHS,
+        TRUCK_jackedLHS,
+        TRUCK_jackedRHS,
+        TRUCK_getout_LHS,
+        TRUCK_getout_RHS,
+        TRUCK_closedoor_LHS,
+        TRUCK_closedoor_RHS,
+        TRUCK_close_LHS,
+        TRUCK_close_RHS,
+
+        // Tank
+        TANK_align_LHS = 0,
+        TANK_close_LHS,
+        TANK_doorlocked,
+        TANK_getin_LHS,
+        TANK_getout_LHS,
+        TANK_open_LHS,
+        
 
 		// Gun
 		GunMove_BWD = 2,
@@ -185,26 +221,6 @@ namespace SanAndreasUnity.Importing.Animation
 			return (AnimIndex)Enum.Parse(typeof(AnimIndex), name);
 		}
 	}
-
-    /*
-	public class AnimIndex {
-		public static string Walk = "walk_civi";
-		public static string Run = "run_civi";
-		public static string Panicked = "sprint_panic";
-		public static string Idle = "idle_stance";
-
-		public static string Sit = "CAR_sit";
-		public static string SitPassenger = "CAR_sitp" ;
-		public static string DriveLeft = "Drive_L";
-		public static string DriveRight = "Drive_R";
-		public static string GetInLeft = "CAR_getin_LHS";
-		public static string GetInRight = "CAR_getin_RHS";
-		public static string GetOutLeft = "CAR_getout_LHS";
-		public static string GetOutRight = "CAR_getout_RHS";
-
-		public static string IdleArmed = "IDLE_ARMED";
-	}
-	*/
 
 	public struct AnimId
 	{
@@ -334,6 +350,8 @@ namespace SanAndreasUnity.Importing.Animation
             {
                 line = line.Trim();
                 if (line.Length == 0) continue;
+                if (i >= animCount)
+                    continue;
                 _animations[i++] = line;
             }
         }

@@ -93,22 +93,63 @@ namespace SanAndreasUnity.Behaviours.Peds.States
 
 		}
 
+        private System.Collections.IEnumerator PlayAnimationAndWait(AnimId anim, PedModel model)
+        {
+            AnimationState animState;
+            model.VehicleParentOffset = Vector3.Scale(model.GetAnim(anim.AnimGroup, anim.AnimIndex).RootEnd, new Vector3(-1, -1, -1));
+            animState = model.PlayAnim(anim);
+            animState.wrapMode = WrapMode.Once;
+            while (animState != null && animState.enabled && this.CurrentVehicle != null)
+            {
+                yield return new WaitForEndOfFrame();
+            }
+        }
+
 		private System.Collections.IEnumerator EnterVehicleAnimation(Vehicle.Seat seat, bool immediate)
 		{
-			var animIndex = seat.IsLeftHand ? AnimIndex.GetInLeft : AnimIndex.GetInRight;
+            AnimationState animState;
+
+            AnimId? anim = VehiclesAnimation.GetAnim(this.CurrentVehicle.Definition.Id, VehiclesAnimation.Action.Align, seat.IsLeftHand ? VehiclesAnimation.Side.Left : VehiclesAnimation.Side.Right);
+            if (anim != null)
+            {
+                PlayAnimationAndWait(anim.Value, m_model);
+            }
+
+            anim = VehiclesAnimation.GetAnim(this.CurrentVehicle.Definition.Id, VehiclesAnimation.Action.Open, seat.IsLeftHand ? VehiclesAnimation.Side.Left : VehiclesAnimation.Side.Right);
+            if (anim != null)
+            {
+                PlayAnimationAndWait(anim.Value, m_model);
+            }
+
+            if (seat.IsTaken)
+            {
+                anim = VehiclesAnimation.GetAnim(this.CurrentVehicle.Definition.Id, VehiclesAnimation.Action.PullOut, seat.IsLeftHand ? VehiclesAnimation.Side.Left : VehiclesAnimation.Side.Right);
+                if (anim != null)
+                {
+                    PlayAnimationAndWait(anim.Value, m_model);
+                }
+                anim = VehiclesAnimation.GetAnim(this.CurrentVehicle.Definition.Id, VehiclesAnimation.Action.Jacked, seat.IsLeftHand ? VehiclesAnimation.Side.Left : VehiclesAnimation.Side.Right);
+                if (anim != null)
+                {
+                    PlayAnimationAndWait(anim.Value, seat.OccupyingPed.PlayerModel);
+                }
+            }
+            anim = VehiclesAnimation.GetAnim(this.CurrentVehicle.Definition.Id, VehiclesAnimation.Action.GetIn, seat.IsLeftHand ? VehiclesAnimation.Side.Left : VehiclesAnimation.Side.Right);
+            if (anim != null)
+            {
+                PlayAnimationAndWait(anim.Value, m_model);
+            }
+            /*
 
             if (this.CurrentVehicle.animGroup == AnimGroup.Tank)
                 m_model.VehicleParentOffset = new Vector3(-2.0f, 0.1f, 0.4f);
             else
-                m_model.VehicleParentOffset = Vector3.Scale(m_model.GetAnim(AnimGroup.Car, animIndex).RootEnd, new Vector3(-1, -1, -1));
+                m_model.VehicleParentOffset = Vector3.Scale(m_model.GetAnim(AnimGroup.Car, openAnimIndex).RootEnd, new Vector3(-1, -1, -1));
 
             if (!immediate)
 			{
-                AnimationState animState;
                 if (this.CurrentVehicle.animGroup == AnimGroup.Tank)
                 {
-                    Transform door = this.CurrentVehicle.transform.FindChildRecursive("door_lf_dummy").transform;
-
                     animState = m_model.PlayAnim("tank", "TANK_align_LHS", PlayMode.StopAll);
                     animState.wrapMode = WrapMode.Once;
                     // wait until anim is finished or vehicle is destroyed
@@ -121,9 +162,16 @@ namespace SanAndreasUnity.Behaviours.Peds.States
                     animState = m_model.PlayAnim("tank", "TANK_open_LHS", PlayMode.StopAll);
                     animState.wrapMode = WrapMode.Once;
                     //StartCoroutine(OpenTankDoor(door));
+                    VehicleDoor door = this.CurrentVehicle._doors.First();
+                    Debug.Log("door = " + door.name);
                     // wait until anim is finished or vehicle is destroyed
                     while (animState != null && animState.enabled && this.CurrentVehicle != null)
                     {
+                        if (animState.time > 0.08 && door.Status == VehicleDoorStatus.Closed)
+                        {
+                            Debug.Log("Door needs to be opened");
+                            door.Open();
+                        }
                         yield return new WaitForEndOfFrame();
                     }
 
@@ -139,7 +187,8 @@ namespace SanAndreasUnity.Behaviours.Peds.States
                     m_model.VehicleParentOffset = Vector3.zero;
                     animState = m_model.PlayAnim("tank", "TANK_close_LHS", PlayMode.StopAll);
                     animState.wrapMode = WrapMode.Once;
-                    //StartCoroutine(CloseTankDoor(door));
+                    door.Close();
+                    Debug.Log("calling closure");
                     // wait until anim is finished or vehicle is destroyed
                     while (animState != null && animState.enabled && this.CurrentVehicle != null)
                     {
@@ -148,8 +197,16 @@ namespace SanAndreasUnity.Behaviours.Peds.States
                 }
                 else
                 {
-                    animState = m_model.PlayAnim(this.CurrentVehicle.animGroup, animIndex, PlayMode.StopAll);
+                    VehicleDoor door = this.CurrentVehicle._doors.Find((d) => (int)d.Position == (int)seat.Alignment);
+                    animState = m_model.PlayAnim(this.CurrentVehicle.animGroup, openAnimIndex, PlayMode.StopAll);
                     animState.wrapMode = WrapMode.Once;
+                    // wait until anim is finished or vehicle is destroyed
+                    while (animState != null && animState.enabled && this.CurrentVehicle != null)
+                    {
+                        if(null != door)
+                            if (animState.time > 0.5 && door.Status == VehicleDoorStatus.Closed) door.Open();
+                        yield return new WaitForEndOfFrame();
+                    }
                 }
 
                 // wait until anim is finished or vehicle is destroyed
@@ -157,7 +214,7 @@ namespace SanAndreasUnity.Behaviours.Peds.States
                 {
                     yield return new WaitForEndOfFrame();
                 }
-			}
+			}*/
             
             // check if vehicle is alive
             if (null == this.CurrentVehicle)

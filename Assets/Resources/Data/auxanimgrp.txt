@@ -13,16 +13,24 @@
 # numanims:	number of animations in groups
 #
 
-default, ped, car, 12
+default, ped, car, 16
 	CAR_sit
 	CAR_sitp
 	Drive_L
 	Drive_R
-	CAR_getin_LHS
-	CAR_getin_RHS
-	CAR_getout_LHS
-	CAR_getout_RHS
-	CAR_closedoor_LHS
+    CAR_align_LHS
+    CAR_align_RHS
+    CAR_open_LHS
+    CAR_open_RHS
+    CAR_pullout_LHS
+    CAR_pullout_RHS
+    CAR_getin_LHS
+    CAR_getin_RHS
+    CAR_jackedLHS
+    CAR_jackedRHS
+    CAR_getout_LHS
+    CAR_getout_RHS
+    CAR_closedoor_LHS
 	CAR_closedoor_RHS
 	CAR_close_LHS
 	CAR_close_RHS
@@ -33,6 +41,34 @@ default, ped, mywalkcycle, 4
 	FUCKU
 	GUN_STAND
 	sprint_civi
+end
+
+default, truck, truck, 16
+    TRUCK_ALIGN_LHS
+    TRUCK_ALIGN_RHS
+    TRUCK_open_LHS
+    TRUCK_open_RHS
+    TRUCK_pullout_LHS
+    TRUCK_pullout_RHS
+    TRUCK_getin_LHS
+    TRUCK_getin_RHS
+    TRUCK_jackedLHS
+    TRUCK_jackedRHS
+    TRUCK_getout_LHS
+    TRUCK_getout_RHS
+    TRUCK_closedoor_LHS
+    TRUCK_closedoor_RHS
+    TRUCK_close_LHS
+    TRUCK_close_RHS
+end
+
+default, tank, tank, 6
+    TANK_align_LHS
+    TANK_close_LHS
+    TANK_doorlocked
+    TANK_getin_LHS
+    TANK_getout_LHS
+    TANK_open_LHS
 end
 
 default, ped, gun, 23

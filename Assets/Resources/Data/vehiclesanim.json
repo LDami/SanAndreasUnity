@@ -1,0 +1,124 @@
+[
+	{
+		"label": "Standard cars",
+		"vehicles": [
+			400,
+			401
+		],
+		"animgroup": "car",
+		"animlist": [
+			{
+				"index": "align",
+				"file": "ped",
+				"left": "CAR_align_LHS",
+				"right": "CAR_align_RHS"
+			},
+			{
+				"index": "open",
+				"file": "ped",
+				"left": "CAR_open_LHS",
+				"right": "CAR_open_RHS"
+			},
+			{
+				"index": "pullout",
+				"file": "ped",
+				"left": "CAR_pullout_LHS",
+				"right": "CAR_pullout_RHS"
+			},
+			{
+				"index": "getin",
+				"file": "ped",
+				"left": "CAR_getin_LHS",
+				"right": "CAR_getin_RHS"
+			},
+			{
+				"index": "jacked",
+				"file": "ped",
+				"left": "CAR_jackedLHS",
+				"right": "CAR_jackedRHS"
+			},
+			{
+				"index": "getout",
+				"file": "ped",
+				"left": "CAR_getout_LHS",
+				"right": "CAR_getout_RHS"
+			},
+			{
+				"index": "closein",
+				"file": "ped",
+				"left": "CAR_closedoor_LHS",
+				"right": "CAR_closedoor_RHS"
+			},
+			{
+				"index": "closeout",
+				"file": "ped",
+				"left": "CAR_close_LHS",
+				"right": "CAR_close_RHS"
+			}
+		],
+		"delayopendoor": 0.5,
+		"delaycloseindoor": 0.28,
+		"delaycloseoutdoor": 0.25
+	},
+	{
+		"label": "Trucks",
+		"vehicles": [
+			403,
+			407
+		],
+		"animgroup": "truck",
+		"animlist": [
+			{
+				"index": "align",
+				"file": "truck",
+				"left": "TRUCK_ALIGN_LHS",
+				"right": "TRUCK_ALIGN_RHS"
+			},
+			{
+				"index": "open",
+				"file": "truck",
+				"left": "TRUCK_open_LHS",
+				"right": "TRUCK_open_RHS"
+			},
+			{
+				"index": "pullout",
+				"file": "truck",
+				"left": "TRUCK_pullout_LHS",
+				"right": "TRUCK_pullout_RHS"
+			},
+			{
+				"index": "getin",
+				"file": "truck",
+				"left": "TRUCK_getin_LHS",
+				"right": "TRUCK_getin_RHS"
+			},
+			{
+				"index": "jacked",
+				"file": "truck",
+				"left": "TRUCK_jackedLHS",
+				"right": "TRUCK_jackedRHS"
+			},
+			{
+				"index": "getout",
+				"file": "truck",
+				"left": "TRUCK_getout_LHS",
+				"right": "TRUCK_getout_RHS"
+			},
+			{
+				"index": "closein",
+				"file": "truck",
+				"left": "TRUCK_closedoor_LHS",
+				"right": "TRUCK_closedoor_RHS"
+			},
+			{
+				"index": "closeout",
+				"file": "truck",
+				"left": "TRUCK_close_LHS",
+				"right": "TRUCK_close_RHS"
+			}
+		],
+		"delayopendoor": 0.33,
+		"delaycloseindoor": 0.25,
+		"delaycloseoutdoor": 0.18
+	}
+]

@@ -55,6 +55,9 @@ namespace SanAndreasUnity.Behaviours
         private bool loadedModelOnStartup = false;
 
         public bool IsInVehicle { get; set; }
+        
+        [SerializeField] private bool m_block = false;
+        public bool block { get { return m_block; } set { m_block = value; } }
 
         public Vector3 VehicleParentOffset { get; set; }
 
@@ -148,17 +151,20 @@ namespace SanAndreasUnity.Behaviours
 
             var trans = _root.transform;
 
-            if (IsInVehicle)
+            if(!block)
             {
-                // 'Anchor' pedestrian model into the vehicle
-				this.Velocity = Vector3.zero;
-                trans.parent.localPosition = VehicleParentOffset;
-            }
-            else
-            {
-                // Store movement defined by animation for pedestrian model
-                this.Velocity = _root.LocalVelocity;
-                trans.parent.localPosition = new Vector3(0f, -trans.localPosition.y * .5f, -trans.localPosition.z);
+                if (IsInVehicle)
+                {
+                    // 'Anchor' pedestrian model into the vehicle
+                    this.Velocity = Vector3.zero;
+                    trans.parent.localPosition = VehicleParentOffset;
+                }
+                else
+                {
+                    // Store movement defined by animation for pedestrian model
+                    this.Velocity = _root.LocalVelocity;
+                    trans.parent.localPosition = new Vector3(0f, -trans.localPosition.y * .5f, -trans.localPosition.z);
+                }
             }
 
 			this.onLateUpdate ();
@@ -537,8 +543,8 @@ namespace SanAndreasUnity.Behaviours
 		}
 
 		public AnimationState PlayAnim (string fileName, string animName, PlayMode playMode = PlayMode.StopAll)
-		{
-			return PlayAnim (new AnimId (fileName, animName), playMode);
+        {
+            return PlayAnim (new AnimId (fileName, animName), playMode);
 		}
 
 		public bool Play2Anims (AnimId animIdA, AnimId animIdB)
@@ -657,8 +663,8 @@ namespace SanAndreasUnity.Behaviours
 
 		public Anim GetAnim (string animName)
 		{
-			Anim result;
-            return _loadedAnims.TryGetValue (animName, out result) ? result : null;
+            Debug.Log("GetAnim: " + animName);
+            return _loadedAnims.TryGetValue (animName, out Anim result) ? result : null;
 		}
 
         public Anim GetAnim (AnimGroup group, AnimIndex anim)

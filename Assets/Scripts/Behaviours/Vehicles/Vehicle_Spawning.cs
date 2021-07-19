@@ -510,8 +510,6 @@ namespace SanAndreasUnity.Behaviours.Vehicles
                 }
             }
 
-            this.animGroup = (AnimGroup)Enum.Parse(typeof(AnimGroup), (def.AnimsName.Equals("null") ? "car" : def.AnimsName), true);
-
             // Add vehicle damage
 
             /*

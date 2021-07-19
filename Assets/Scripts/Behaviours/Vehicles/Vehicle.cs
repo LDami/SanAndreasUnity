@@ -1,4 +1,5 @@
 ﻿using SanAndreasUnity.Behaviours.World;
+using SanAndreasUnity.Importing.Animation;
 using SanAndreasUnity.Importing.Vehicles;
 using SanAndreasUnity.Utilities;
 using System.Collections;
@@ -152,11 +153,6 @@ namespace SanAndreasUnity.Behaviours.Vehicles
         public Mirror.NetworkTransform NetTransform { get; private set; }
 
         List<Ped> m_lastPreparedPeds = new List<Ped>();
-
-        /// <summary>
-        ///     Used for enter/exit animation
-        /// </summary>
-        public Importing.Animation.AnimGroup animGroup;
 
         public string DescriptionForLogging
         {

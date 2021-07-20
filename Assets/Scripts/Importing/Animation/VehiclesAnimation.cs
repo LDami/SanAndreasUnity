@@ -66,9 +66,46 @@ namespace SanAndreasUnity.Importing.Animation
             catch(Exception e)
             {
                 Debug.LogError("VehiclesAnimation.GetAnim called but animations data are not loaded yet.");
-                Debug.LogError(e.Message);
-                Debug.LogError(e);
                 return new AnimId();
+            }
+        }
+
+        public static double GetOpeningDelay(int vehicleid)
+        {
+            try
+            {
+                return vehAnims.Find(x => x.vehicles.Contains(vehicleid)).delayOpenDoor;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("VehiclesAnimation.GetOpeningDelay called but animations data are not loaded yet.");
+                return 0;
+            }
+        }
+
+        public static double GetCloseInDelay(int vehicleid)
+        {
+            try
+            {
+                return vehAnims.Find(x => x.vehicles.Contains(vehicleid)).delayCloseInDoor;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("VehiclesAnimation.GetCloseInDelay called but animations data are not loaded yet.");
+                return 0;
+            }
+        }
+
+        public static double GetCloseOutDelay(int vehicleid)
+        {
+            try
+            {
+                return vehAnims.Find(x => x.vehicles.Contains(vehicleid)).delayCloseOutDoor;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("VehiclesAnimation.GetCloseOutDelay called but animations data are not loaded yet.");
+                return 0;
             }
         }
     }

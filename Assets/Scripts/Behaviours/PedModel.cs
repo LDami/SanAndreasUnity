@@ -669,6 +669,7 @@ namespace SanAndreasUnity.Behaviours
 
         public Anim GetAnim (AnimGroup group, AnimIndex anim)
         {
+            LoadAnim(group, anim); // Load anim if not loaded yet
             string animName = GetAnimName (group, anim);
 			if (string.IsNullOrEmpty (animName))
 				return null;

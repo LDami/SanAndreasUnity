@@ -123,6 +123,7 @@ namespace SanAndreasUnity.Behaviours.Vehicles
         private static readonly int CarColorPropertyId = Shader.PropertyToID("_CarColor");
         private static readonly int CarEmissionPropertyId = Shader.PropertyToID("_CarEmission");
         private bool _colorsChanged, _isNightToggled;
+        public List<VehicleDoor> _doors;
 
         private const float constRearNightIntensity = .7f;
 

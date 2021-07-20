@@ -71,42 +71,93 @@ namespace SanAndreasUnity.Behaviours.Peds.States
 			//	Net.NetManager.RemoveAuthority(this.CurrentVehicle.gameObject);
 			}
 
-			//m_coroutine = StartCoroutine (ExitVehicleAnimation (m_isExitingImmediately));
+			m_coroutine = StartCoroutine (ExitVehicleAnimation (m_isExitingImmediately));
 
 		}
-        /*
+        
 		private System.Collections.IEnumerator ExitVehicleAnimation(bool immediate)
 		{
-
-			var seat = this.CurrentVehicleSeat;
-
-			var animIndex = seat.IsLeftHand ? AnimIndex.GetOutLeft : AnimIndex.GetOutRight;
-            /*
-            if (this.CurrentVehicle.animGroup == AnimGroup.Tank)
-                m_model.VehicleParentOffset = new Vector3(-2.0f, 0.1f, 0.4f);
-            else
-                m_model.VehicleParentOffset = Vector3.Scale(m_model.GetAnim(AnimGroup.Car, animIndex).RootEnd, new Vector3(-1, -1, -1));
-
-            if (!immediate)
+            VehicleDoorPosition doorPos = VehicleDoorPosition.LF;
+            switch (this.CurrentVehicleSeatAlignment)
             {
-                AnimationState animState;
-                if (this.CurrentVehicle.animGroup == AnimGroup.Tank)
+                case Vehicle.SeatAlignment.BackLeft:
+                    doorPos = VehicleDoorPosition.LR;
+                    break;
+                case Vehicle.SeatAlignment.BackRight:
+                    doorPos = VehicleDoorPosition.RR;
+                    break;
+                case Vehicle.SeatAlignment.FrontLeft:
+                    doorPos = VehicleDoorPosition.LF;
+                    break;
+                case Vehicle.SeatAlignment.FrontRight:
+                    doorPos = VehicleDoorPosition.RF;
+                    break;
+            }
+
+            AnimationState animState;
+            AnimId? anim = VehiclesAnimation.GetAnim(this.CurrentVehicle.Definition.Id, VehiclesAnimation.Action.GetIn, this.CurrentVehicleSeat.IsLeftHand ? VehiclesAnimation.Side.Left : VehiclesAnimation.Side.Right);
+            Vector3 getInVector = Vector3.Scale(m_model.GetAnim(anim.GetValueOrDefault().AnimGroup, anim.GetValueOrDefault().AnimIndex).RootEnd, new Vector3(-1, -1, -1));
+
+            anim = VehiclesAnimation.GetAnim(this.CurrentVehicle.Definition.Id, VehiclesAnimation.Action.CloseIn, this.CurrentVehicleSeat.IsLeftHand ? VehiclesAnimation.Side.Left : VehiclesAnimation.Side.Right);
+            if (anim != null)
+            {
+                m_model.VehicleParentOffset = Vector3.Scale(m_model.GetAnim(anim.Value.AnimGroup, anim.Value.AnimIndex).RootEnd, new Vector3(-1, -1, -1));
+                animState = m_model.PlayAnim(anim.Value, PlayMode.StopAll, true);
+                animState.wrapMode = WrapMode.Once;
+                animState.speed = -1;
+                while (animState != null && animState.enabled && this.CurrentVehicle != null)
                 {
-                    animState = m_model.PlayAnim("tank", "TANK_getout_LHS", PlayMode.StopAll);
-                    VehicleDoor door = this.CurrentVehicle._doors.First();
-                    door.Open();
+                    yield return new WaitForEndOfFrame();
+                }
+            }
+            else
+                Debug.Log("Align animation is null");
+
+            if (this.CurrentVehicle._doors.Count > 0)
+            {
+                Debug.Log("This vehicle has " + this.CurrentVehicle._doors.Count + " doors");
+
+                anim = VehiclesAnimation.GetAnim(this.CurrentVehicle.Definition.Id, VehiclesAnimation.Action.GetOut, this.CurrentVehicleSeat.IsLeftHand ? VehiclesAnimation.Side.Left : VehiclesAnimation.Side.Right);
+                if (anim != null)
+                {
+                    double openDelay = VehiclesAnimation.GetOpeningDelay(this.CurrentVehicle.Definition.Id);
+                    VehicleDoor door = this.CurrentVehicle._doors.Find(x => x.Position == doorPos);
+                    m_model.VehicleParentOffset = Vector3.zero;
+                    m_model.VehicleParentOffset = Vector3.Scale(m_model.GetAnim(anim.Value.AnimGroup, anim.Value.AnimIndex).RootEnd, new Vector3(-1, -1, -1));
+                    animState = m_model.PlayAnim(anim.Value);
+                    animState.wrapMode = WrapMode.Once;
+                    while (animState != null && animState.enabled && this.CurrentVehicle != null)
+                    {
+                        if (animState.time >= openDelay && door != null) door.Open();
+                        yield return new WaitForEndOfFrame();
+                    }
                 }
                 else
-                    animState = m_model.PlayAnim(this.CurrentVehicle.animGroup, animIndex, PlayMode.StopAll);
+                    Debug.Log("Open animation is null");
+            }
 
-				animState.wrapMode = WrapMode.Once;
+            if (this.CurrentVehicle._doors.Count > 0)
+            {
+                anim = VehiclesAnimation.GetAnim(this.CurrentVehicle.Definition.Id, VehiclesAnimation.Action.CloseOut, this.CurrentVehicleSeat.IsLeftHand ? VehiclesAnimation.Side.Left : VehiclesAnimation.Side.Right);
+                if (anim != null)
+                {
+                    double closeDelay = VehiclesAnimation.GetCloseOutDelay(this.CurrentVehicle.Definition.Id);
+                    VehicleDoor door = this.CurrentVehicle._doors.Find(x => x.Position == doorPos);
 
-				// wait until anim finishes or stops
-				while (animState != null && animState.enabled)
-					yield return new WaitForEndOfFrame();
-			}
+                    m_model.VehicleParentOffset = getInVector;
+                    animState = m_model.PlayAnim(anim.Value);
+                    animState.wrapMode = WrapMode.Once;
+                    while (animState != null && animState.enabled && this.CurrentVehicle != null)
+                    {
+                        if (animState.time >= closeDelay && door != null) door.Close();
+                        yield return new WaitForEndOfFrame();
+                    }
+                }
+                else
+                    Debug.Log("CloseIn animation is null");
+            }
+
 			// ped now completely exited the vehicle
-
 
 			m_ped.transform.localPosition = m_model.VehicleParentOffset;
 			m_ped.transform.localRotation = Quaternion.identity;
@@ -120,7 +171,7 @@ namespace SanAndreasUnity.Behaviours.Peds.States
 				m_ped.SwitchState<StandState> ();
 
 		}
-    */
+    
 	}
 
 }

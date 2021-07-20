@@ -318,27 +318,6 @@ namespace SanAndreasUnity.Behaviours.Vehicles
             }
         }
 
-        private DoorAlignment GetDoorAlignment(string frameName)
-        {
-            switch (frameName)
-            {
-                case "door_rf_dummy":
-                    return DoorAlignment.RightFront;
-
-                case "door_lf_dummy":
-                    return DoorAlignment.LeftFront;
-
-                case "door_rr_dummy":
-                    return DoorAlignment.RightRear;
-
-                case "door_lr_dummy":
-                    return DoorAlignment.LeftRear;
-
-                default:
-                    return DoorAlignment.None;
-            }
-        }
-
         public Transform GetPart(string name)
         {
             var frame = _frames.GetByName(name);
@@ -530,6 +509,7 @@ namespace SanAndreasUnity.Behaviours.Vehicles
             gameObject.SetLayerRecursive(Layer);
 
             SetupHighDetailMesh();
+            SetupDoors();
 
         }
 
@@ -601,21 +581,39 @@ namespace SanAndreasUnity.Behaviours.Vehicles
 
         }
 
-        void SetupDoorsHingeJoints()
+        void SetupDoors()
         {
+            _doors = new List<VehicleDoor>();
             foreach (var pair in _frames.Where(x => x.Name.StartsWith("door_")))
             {
-                var doorAlignment = GetDoorAlignment(pair.Name);
+                VehicleDoor door = pair.gameObject.AddComponent<VehicleDoor>();
+                switch (pair.Name)
+                {
+                    case "door_rf_dummy":
+                        door.Position = VehicleDoorPosition.RF;
+                        break;
 
-                if (doorAlignment == DoorAlignment.None) continue;
+                    case "door_lf_dummy":
+                        door.Position = VehicleDoorPosition.LF;
+                        break;
 
-                var hinge = pair.gameObject.AddComponent<HingeJoint>();
-                hinge.axis = Vector3.up;
-                hinge.useLimits = true;
+                    case "door_rr_dummy":
+                        door.Position = VehicleDoorPosition.RR;
+                        break;
 
-                var limit = 90.0f * ((doorAlignment == DoorAlignment.LeftFront || doorAlignment == DoorAlignment.LeftRear) ? 1.0f : -1.0f);
-                hinge.limits = new JointLimits { min = Mathf.Min(0, limit), max = Mathf.Max(0, limit), };
-                hinge.connectedBody = gameObject.GetComponent<Rigidbody>();
+                    case "door_lr_dummy":
+                        door.Position = VehicleDoorPosition.LR;
+                        break;
+
+                    default:
+                        door.Position = VehicleDoorPosition.None;
+                        break;
+                }
+                if(door.Position != VehicleDoorPosition.None)
+                {
+                    door.Type = VehicleDoorType.Side;
+                    _doors.Add(door);
+                }
             }
         }
     }

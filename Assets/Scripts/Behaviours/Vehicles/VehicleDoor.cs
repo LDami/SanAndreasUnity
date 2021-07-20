@@ -13,6 +13,7 @@ namespace SanAndreasUnity.Behaviours.Vehicles
     }
     public enum VehicleDoorPosition
     {
+        None,
         LF,
         RF,
         LR,
@@ -64,11 +65,21 @@ namespace SanAndreasUnity.Behaviours.Vehicles
                         m_openingVector = new Vector3(0, 0, -60);
                         break;
                 }
-            } }
+            }
+        }
 
         public void Awake()
         {
             m_status = VehicleDoorStatus.Closed;
+            /*
+            var hinge = this.gameObject.AddComponent<HingeJoint>();
+            hinge.axis = Vector3.up;
+            hinge.useLimits = true;
+
+            var limit = 90.0f * ((m_position == VehicleDoorPosition.LF || m_position == VehicleDoorPosition.LR) ? 1.0f : -1.0f);
+            hinge.limits = new JointLimits { min = Mathf.Min(0, limit), max = Mathf.Max(0, limit), };
+            //hinge.connectedBody = gameObject.GetComponentInParent<Rigidbody>();
+            */
         }
 
         public void Update()
@@ -122,9 +133,9 @@ namespace SanAndreasUnity.Behaviours.Vehicles
                 {
                     case VehicleDoorType.Side:
                         if (m_position == VehicleDoorPosition.LF || m_position == VehicleDoorPosition.LR)
-                            actualRotation -= Time.deltaTime * m_speed;
+                            actualRotation -= Time.deltaTime * m_speed * 1.1f;
                         else if (m_position == VehicleDoorPosition.RF || m_position == VehicleDoorPosition.RR)
-                            actualRotation += Time.deltaTime * m_speed;
+                            actualRotation += Time.deltaTime * m_speed * 1.1f;
 
                         this.transform.localEulerAngles = new Vector3(0, actualRotation, 0);
 
@@ -151,18 +162,24 @@ namespace SanAndreasUnity.Behaviours.Vehicles
 
         public void Open()
         {
-            Debug.Log("Opening door");
-            m_status = VehicleDoorStatus.Opening;
-            this.transform.localEulerAngles = Vector3.zero;
-            //StartCoroutine(OpenDoorRoutine(this.transform, m_openingVector));
+            if(!m_opened)
+            {
+                Debug.Log("Opening door");
+                m_opened = true;
+                m_status = VehicleDoorStatus.Opening;
+                this.transform.localEulerAngles = Vector3.zero;
+            }
         }
 
         public void Close()
         {
-            Debug.Log("Closing door");
-            m_status = VehicleDoorStatus.Closing;
-            this.transform.localEulerAngles = m_openingVector;
-            //StartCoroutine(CloseDoorRoutine(this.transform));
+            if(m_opened)
+            {
+                Debug.Log("Closing door");
+                m_opened = false;
+                m_status = VehicleDoorStatus.Closing;
+                this.transform.localEulerAngles = m_openingVector;
+            }
         }
 
         private System.Collections.IEnumerator OpenDoorRoutine(Transform doorTransform, Vector3 finalVector)

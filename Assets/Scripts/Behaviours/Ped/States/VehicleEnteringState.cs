@@ -3,6 +3,7 @@ using SanAndreasUnity.Utilities;
 using SanAndreasUnity.Behaviours.Vehicles;
 using SanAndreasUnity.Behaviours.World;
 using SanAndreasUnity.Importing.Animation;
+using SanAndreasUnity.Importing.Vehicles;
 using System.Linq;
 using System;
 
@@ -96,20 +97,20 @@ namespace SanAndreasUnity.Behaviours.Peds.States
 		private System.Collections.IEnumerator EnterVehicleAnimation(Vehicle.Seat seat, bool immediate)
         {
 
-            VehicleDoorPosition doorPos = VehicleDoorPosition.LF;
+            Door.Position doorPos = Door.Position.LF;
             switch (seat.Alignment)
             {
                 case Vehicle.SeatAlignment.BackLeft:
-                    doorPos = VehicleDoorPosition.LR;
+                    doorPos = Door.Position.LR;
                     break;
                 case Vehicle.SeatAlignment.BackRight:
-                    doorPos = VehicleDoorPosition.RR;
+                    doorPos = Door.Position.RR;
                     break;
                 case Vehicle.SeatAlignment.FrontLeft:
-                    doorPos = VehicleDoorPosition.LF;
+                    doorPos = Door.Position.LF;
                     break;
                 case Vehicle.SeatAlignment.FrontRight:
-                    doorPos = VehicleDoorPosition.RF;
+                    doorPos = Door.Position.RF;
                     break;
             }
 
@@ -203,82 +204,6 @@ namespace SanAndreasUnity.Behaviours.Peds.States
                 else
                     Debug.Log("CloseIn animation is null");
             }
-            /*
-
-            if (this.CurrentVehicle.animGroup == AnimGroup.Tank)
-                m_model.VehicleParentOffset = new Vector3(-2.0f, 0.1f, 0.4f);
-            else
-                m_model.VehicleParentOffset = Vector3.Scale(m_model.GetAnim(AnimGroup.Car, openAnimIndex).RootEnd, new Vector3(-1, -1, -1));
-
-            if (!immediate)
-			{
-                if (this.CurrentVehicle.animGroup == AnimGroup.Tank)
-                {
-                    animState = m_model.PlayAnim("tank", "TANK_align_LHS", PlayMode.StopAll);
-                    animState.wrapMode = WrapMode.Once;
-                    // wait until anim is finished or vehicle is destroyed
-                    while (animState != null && animState.enabled && this.CurrentVehicle != null)
-                    {
-                        yield return new WaitForEndOfFrame();
-                    }
-
-                    m_model.VehicleParentOffset = new Vector3(-3.1f, -1.1f, -0.14f);
-                    animState = m_model.PlayAnim("tank", "TANK_open_LHS", PlayMode.StopAll);
-                    animState.wrapMode = WrapMode.Once;
-                    //StartCoroutine(OpenTankDoor(door));
-                    VehicleDoor door = this.CurrentVehicle._doors.First();
-                    Debug.Log("door = " + door.name);
-                    // wait until anim is finished or vehicle is destroyed
-                    while (animState != null && animState.enabled && this.CurrentVehicle != null)
-                    {
-                        if (animState.time > 0.08 && door.Status == VehicleDoorStatus.Closed)
-                        {
-                            Debug.Log("Door needs to be opened");
-                            door.Open();
-                        }
-                        yield return new WaitForEndOfFrame();
-                    }
-
-                    m_model.VehicleParentOffset = new Vector3(-4.24f, -2.5f, -0.14f);
-                    animState = m_model.PlayAnim("tank", "TANK_getin_LHS", PlayMode.StopAll);
-                    animState.wrapMode = WrapMode.Once;
-                    // wait until anim is finished or vehicle is destroyed
-                    while (animState != null && animState.enabled && this.CurrentVehicle != null)
-                    {
-                        yield return new WaitForEndOfFrame();
-                    }
-
-                    m_model.VehicleParentOffset = Vector3.zero;
-                    animState = m_model.PlayAnim("tank", "TANK_close_LHS", PlayMode.StopAll);
-                    animState.wrapMode = WrapMode.Once;
-                    door.Close();
-                    Debug.Log("calling closure");
-                    // wait until anim is finished or vehicle is destroyed
-                    while (animState != null && animState.enabled && this.CurrentVehicle != null)
-                    {
-                        yield return new WaitForEndOfFrame();
-                    }
-                }
-                else
-                {
-                    VehicleDoor door = this.CurrentVehicle._doors.Find((d) => (int)d.Position == (int)seat.Alignment);
-                    animState = m_model.PlayAnim(this.CurrentVehicle.animGroup, openAnimIndex, PlayMode.StopAll);
-                    animState.wrapMode = WrapMode.Once;
-                    // wait until anim is finished or vehicle is destroyed
-                    while (animState != null && animState.enabled && this.CurrentVehicle != null)
-                    {
-                        if(null != door)
-                            if (animState.time > 0.5 && door.Status == VehicleDoorStatus.Closed) door.Open();
-                        yield return new WaitForEndOfFrame();
-                    }
-                }
-
-                // wait until anim is finished or vehicle is destroyed
-                while (animState != null && animState.enabled && this.CurrentVehicle != null)
-                {
-                    yield return new WaitForEndOfFrame();
-                }
-			}*/
 
             // check if vehicle is alive
             if (null == this.CurrentVehicle)

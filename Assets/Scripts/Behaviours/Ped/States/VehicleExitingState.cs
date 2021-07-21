@@ -2,6 +2,7 @@ using UnityEngine;
 using SanAndreasUnity.Utilities;
 using SanAndreasUnity.Behaviours.Vehicles;
 using SanAndreasUnity.Importing.Animation;
+using SanAndreasUnity.Importing.Vehicles;
 using System.Linq;
 
 namespace SanAndreasUnity.Behaviours.Peds.States
@@ -77,20 +78,20 @@ namespace SanAndreasUnity.Behaviours.Peds.States
         
 		private System.Collections.IEnumerator ExitVehicleAnimation(bool immediate)
 		{
-            VehicleDoorPosition doorPos = VehicleDoorPosition.LF;
+            Door.Position doorPos = Door.Position.LF;
             switch (this.CurrentVehicleSeatAlignment)
             {
                 case Vehicle.SeatAlignment.BackLeft:
-                    doorPos = VehicleDoorPosition.LR;
+                    doorPos = Door.Position.LR;
                     break;
                 case Vehicle.SeatAlignment.BackRight:
-                    doorPos = VehicleDoorPosition.RR;
+                    doorPos = Door.Position.RR;
                     break;
                 case Vehicle.SeatAlignment.FrontLeft:
-                    doorPos = VehicleDoorPosition.LF;
+                    doorPos = Door.Position.LF;
                     break;
                 case Vehicle.SeatAlignment.FrontRight:
-                    doorPos = VehicleDoorPosition.RF;
+                    doorPos = Door.Position.RF;
                     break;
             }
 
@@ -102,7 +103,7 @@ namespace SanAndreasUnity.Behaviours.Peds.States
             if (anim != null)
             {
                 m_model.VehicleParentOffset = Vector3.Scale(m_model.GetAnim(anim.Value.AnimGroup, anim.Value.AnimIndex).RootEnd, new Vector3(-1, -1, -1));
-                animState = m_model.PlayAnim(anim.Value, PlayMode.StopAll, true);
+                animState = m_model.PlayAnim(anim.Value, PlayMode.StopAll);
                 animState.wrapMode = WrapMode.Once;
                 animState.speed = -1;
                 while (animState != null && animState.enabled && this.CurrentVehicle != null)

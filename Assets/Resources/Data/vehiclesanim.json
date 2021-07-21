@@ -5,6 +5,7 @@
 			400,
 			401
 		],
+		"doortype": "side",
 		"animgroup": "car",
 		"animlist": [
 			{
@@ -66,6 +67,7 @@
 			403,
 			407
 		],
+		"doortype": "side",
 		"animgroup": "truck",
 		"animlist": [
 			{
@@ -120,5 +122,48 @@
 		"delayopendoor": 0.33,
 		"delaycloseindoor": 0.25,
 		"delaycloseoutdoor": 0.18
+	},
+	{
+		"label": "Tank",
+		"vehicles": [
+			432
+		],
+		"doortype": "top",
+		"animgroup": "tank",
+		"animlist": [
+			{
+				"index": "align",
+				"file": "tank",
+				"left": "TANK_ALIGN_LHS",
+				"right": "none"
+			},
+			{
+				"index": "open",
+				"file": "tank",
+				"left": "TANK_open_LHS",
+				"right": "none"
+			},
+			{
+				"index": "getin",
+				"file": "tank",
+				"left": "TANK_getin_LHS",
+				"right": "none"
+			},
+			{
+				"index": "getout",
+				"file": "tank",
+				"left": "TANK_getout_LHS",
+				"right": "none"
+			},
+			{
+				"index": "closein",
+				"file": "tank",
+				"left": "TANK_close_LHS",
+				"right": "none"
+			}
+		],
+		"delayopendoor": 0.8,
+		"delaycloseindoor": 0.25,
+		"delaycloseoutdoor": -1
 	}
 ]

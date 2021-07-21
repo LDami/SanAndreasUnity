@@ -590,28 +590,28 @@ namespace SanAndreasUnity.Behaviours.Vehicles
                 switch (pair.Name)
                 {
                     case "door_rf_dummy":
-                        door.Position = VehicleDoorPosition.RF;
+                        door.Position = Door.Position.RF;
                         break;
 
                     case "door_lf_dummy":
-                        door.Position = VehicleDoorPosition.LF;
+                        door.Position = Door.Position.LF;
                         break;
 
                     case "door_rr_dummy":
-                        door.Position = VehicleDoorPosition.RR;
+                        door.Position = Door.Position.RR;
                         break;
 
                     case "door_lr_dummy":
-                        door.Position = VehicleDoorPosition.LR;
+                        door.Position = Door.Position.LR;
                         break;
 
                     default:
-                        door.Position = VehicleDoorPosition.None;
+                        door.Position = Door.Position.None;
                         break;
                 }
-                if(door.Position != VehicleDoorPosition.None)
+                if(door.Position != Door.Position.None)
                 {
-                    door.Type = VehicleDoorType.Side;
+                    door.Type = Door.Type.Side;
                     _doors.Add(door);
                 }
             }

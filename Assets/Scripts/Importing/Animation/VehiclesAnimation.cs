@@ -38,6 +38,7 @@ namespace SanAndreasUnity.Importing.Animation
         {
             public string label;
             public List<int> vehicles;
+            public Vehicles.Door.Type doorType;
             public AnimGroup animGroup;
             public List<Anim> animList;
             public double delayOpenDoor;
@@ -51,7 +52,7 @@ namespace SanAndreasUnity.Importing.Animation
         {
             Debug.Log("Loading Vehicle animations");
             vehAnims = JsonConvert.DeserializeObject<List<VehicleAnim>>(file.text);
-            Debug.Log(vehAnims.Count + " animations loaded");
+            Debug.Log(vehAnims.Count + " vehicles animations groups loaded");
         }
 
         public static AnimId GetAnim(int vehicleid, Action action, Side side)

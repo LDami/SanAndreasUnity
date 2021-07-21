@@ -1,31 +1,9 @@
 ﻿using UnityEngine;
-using UnityEditor;
+using SanAndreasUnity.Importing.Vehicles;
 using System;
 
 namespace SanAndreasUnity.Behaviours.Vehicles
 {
-    public enum VehicleDoorStatus
-    {
-        Opened,
-        Opening,
-        Closed,
-        Closing
-    }
-    public enum VehicleDoorPosition
-    {
-        None,
-        LF,
-        RF,
-        LR,
-        RR
-    }
-    public enum VehicleDoorType
-    {
-        Side, // Most common (cars, some airplanes, some helicopters, ...)
-        Top, // Hydra, Hunter, Rustler, Cropduster, Stuntplane
-        Descending // Shamal
-        // TODO: There is nothing for AT400 and Andromada
-    }
     public class VehicleDoor : DetachablePart
     {
         [SerializeField] private bool m_opened;
@@ -37,31 +15,33 @@ namespace SanAndreasUnity.Behaviours.Vehicles
         [SerializeField] private float m_speed = 100f;
         public float Speed { get { return m_speed; } set { m_speed = value; } }
 
-        [SerializeField] private VehicleDoorStatus m_status;
-        public VehicleDoorStatus Status { get { return m_status; } }
+        [SerializeField] private Door.Status m_status;
+        public Door.Status Status { get { return m_status; } }
 
-        [SerializeField] private VehicleDoorPosition m_position;
-        public VehicleDoorPosition Position { get { return m_position; } set { m_position = value; } }
-        
+        [SerializeField] private Door.Position m_position;
+        public Door.Position Position { get { return m_position; } set { m_position = value; } }
+
         private float actualRotation;
 
-        [SerializeField] private VehicleDoorType m_type;
-        public VehicleDoorType Type {
+        [SerializeField] private Door.Type m_type;
+        public Door.Type Type
+        {
             get { return m_type; }
-            set {
+            set
+            {
                 m_type = value;
-                switch(m_type)
+                switch (m_type)
                 {
-                    case VehicleDoorType.Side:
-                        if (m_position == VehicleDoorPosition.LF || m_position == VehicleDoorPosition.LR)
+                    case Door.Type.Side:
+                        if (m_position == Door.Position.LF || m_position == Door.Position.LR)
                             m_openingVector = new Vector3(0, 60, 0);
-                        else if (m_position == VehicleDoorPosition.RF || m_position == VehicleDoorPosition.RR)
+                        else if (m_position == Door.Position.RF || m_position == Door.Position.RR)
                             m_openingVector = new Vector3(0, -60, 0);
                         break;
-                    case VehicleDoorType.Top:
+                    case Door.Type.Top:
                         m_openingVector = new Vector3(0, 0, 60);
                         break;
-                    case VehicleDoorType.Descending:
+                    case Door.Type.Descending:
                         m_openingVector = new Vector3(0, 0, -60);
                         break;
                 }
@@ -70,13 +50,13 @@ namespace SanAndreasUnity.Behaviours.Vehicles
 
         public void Awake()
         {
-            m_status = VehicleDoorStatus.Closed;
+            m_status = Door.Status.Closed;
             /*
             var hinge = this.gameObject.AddComponent<HingeJoint>();
             hinge.axis = Vector3.up;
             hinge.useLimits = true;
 
-            var limit = 90.0f * ((m_position == VehicleDoorPosition.LF || m_position == VehicleDoorPosition.LR) ? 1.0f : -1.0f);
+            var limit = 90.0f * ((m_position == Door.Position.LF || m_position == Door.Position.LR) ? 1.0f : -1.0f);
             hinge.limits = new JointLimits { min = Mathf.Min(0, limit), max = Mathf.Max(0, limit), };
             //hinge.connectedBody = gameObject.GetComponentInParent<Rigidbody>();
             */
@@ -84,25 +64,25 @@ namespace SanAndreasUnity.Behaviours.Vehicles
 
         public void Update()
         {
-            if(m_opened && m_status == VehicleDoorStatus.Closed)
+            if (m_opened && m_status == Door.Status.Closed)
             {
                 Open();
                 Debug.Log("Requesting Opening door");
             }
-            if(!m_opened && m_status == VehicleDoorStatus.Opened)
+            if (!m_opened && m_status == Door.Status.Opened)
             {
                 Close();
                 Debug.Log("Requesting Closing door");
             }
 
-            if (m_status == VehicleDoorStatus.Opening)
+            if (m_status == Door.Status.Opening)
             {
                 switch (m_type)
                 {
-                    case VehicleDoorType.Side:
-                        if (m_position == VehicleDoorPosition.LF || m_position == VehicleDoorPosition.LR)
+                    case Door.Type.Side:
+                        if (m_position == Door.Position.LF || m_position == Door.Position.LR)
                             actualRotation += Time.deltaTime * m_speed;
-                        else if (m_position == VehicleDoorPosition.RF || m_position == VehicleDoorPosition.RR)
+                        else if (m_position == Door.Position.RF || m_position == Door.Position.RR)
                             actualRotation -= Time.deltaTime * m_speed;
 
                         this.transform.localEulerAngles = new Vector3(0, actualRotation, 0);
@@ -110,10 +90,10 @@ namespace SanAndreasUnity.Behaviours.Vehicles
                         if (Vector3.Distance(this.transform.localEulerAngles, m_openingVector) < 2.0f)
                         {
                             this.transform.localEulerAngles = m_openingVector;
-                            m_status = VehicleDoorStatus.Opened;
+                            m_status = Door.Status.Opened;
                         }
                         break;
-                    case VehicleDoorType.Top:
+                    case Door.Type.Top:
                         actualRotation += Time.deltaTime * m_speed;
 
                         this.transform.localEulerAngles = new Vector3(0, 0, actualRotation);
@@ -121,31 +101,31 @@ namespace SanAndreasUnity.Behaviours.Vehicles
                         if (Vector3.Distance(this.transform.localEulerAngles, m_openingVector) < 2.0f)
                         {
                             this.transform.localEulerAngles = m_openingVector;
-                            m_status = VehicleDoorStatus.Opened;
+                            m_status = Door.Status.Opened;
                         }
                         break;
                 }
             }
 
-            if (m_status == VehicleDoorStatus.Closing)
+            if (m_status == Door.Status.Closing)
             {
                 switch (m_type)
                 {
-                    case VehicleDoorType.Side:
-                        if (m_position == VehicleDoorPosition.LF || m_position == VehicleDoorPosition.LR)
+                    case Door.Type.Side:
+                        if (m_position == Door.Position.LF || m_position == Door.Position.LR)
                             actualRotation -= Time.deltaTime * m_speed * 1.1f;
-                        else if (m_position == VehicleDoorPosition.RF || m_position == VehicleDoorPosition.RR)
+                        else if (m_position == Door.Position.RF || m_position == Door.Position.RR)
                             actualRotation += Time.deltaTime * m_speed * 1.1f;
 
                         this.transform.localEulerAngles = new Vector3(0, actualRotation, 0);
 
-                        if (Vector3.Distance(this.transform.localEulerAngles,Vector3.zero) < 2.0f)
+                        if (Vector3.Distance(this.transform.localEulerAngles, Vector3.zero) < 2.0f)
                         {
                             this.transform.localEulerAngles = Vector3.zero;
-                            m_status = VehicleDoorStatus.Closed;
+                            m_status = Door.Status.Closed;
                         }
                         break;
-                    case VehicleDoorType.Top:
+                    case Door.Type.Top:
                         actualRotation -= Time.deltaTime * m_speed;
 
                         this.transform.localEulerAngles = new Vector3(0, 0, actualRotation);
@@ -153,7 +133,7 @@ namespace SanAndreasUnity.Behaviours.Vehicles
                         if (Vector3.Distance(this.transform.localEulerAngles, Vector3.zero) < 2.0f)
                         {
                             this.transform.localEulerAngles = Vector3.zero;
-                            m_status = VehicleDoorStatus.Closed;
+                            m_status = Door.Status.Closed;
                         }
                         break;
                 }
@@ -162,22 +142,22 @@ namespace SanAndreasUnity.Behaviours.Vehicles
 
         public void Open()
         {
-            if(!m_opened)
+            if (!m_opened)
             {
                 Debug.Log("Opening door");
                 m_opened = true;
-                m_status = VehicleDoorStatus.Opening;
+                m_status = Door.Status.Opening;
                 this.transform.localEulerAngles = Vector3.zero;
             }
         }
 
         public void Close()
         {
-            if(m_opened)
+            if (m_opened)
             {
                 Debug.Log("Closing door");
                 m_opened = false;
-                m_status = VehicleDoorStatus.Closing;
+                m_status = Door.Status.Closing;
                 this.transform.localEulerAngles = m_openingVector;
             }
         }
@@ -213,7 +193,7 @@ namespace SanAndreasUnity.Behaviours.Vehicles
                 yield return new WaitForEndOfFrame();
             }
             Debug.Log("Door opened");
-            m_status = VehicleDoorStatus.Opened;
+            m_status = Door.Status.Opened;
         }
 
         private System.Collections.IEnumerator CloseDoorRoutine(Transform doorTransform)
@@ -261,7 +241,7 @@ namespace SanAndreasUnity.Behaviours.Vehicles
                 yield return new WaitForEndOfFrame();
             }
             Debug.Log("Door closed");
-            m_status = VehicleDoorStatus.Closed;
+            m_status = Door.Status.Closed;
         }
     }
 }

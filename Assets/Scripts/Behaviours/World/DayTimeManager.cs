@@ -13,6 +13,8 @@ namespace SanAndreasUnity.Behaviours.World
 
         public Light directionalLight;
 
+        public float lightYAngle = 45f;
+
         public byte startTimeHours = 12;
         public byte startTimeMinutes = 0;
 
@@ -20,6 +22,8 @@ namespace SanAndreasUnity.Behaviours.World
         public byte CurrentTimeMinutes { get; private set; }
 
         public float CurrentCurveTime => (this.CurrentTimeHours + this.CurrentTimeMinutes / 60f) / 24f;
+
+        public float CurrentCurveTimeStepped => this.CurrentTimeHours / 24f;
 
         public string CurrentTimeAsString => FormatTime(this.CurrentTimeHours, this.CurrentTimeMinutes);
 
@@ -81,11 +85,6 @@ namespace SanAndreasUnity.Behaviours.World
                 m_timeSinceTimeAdvanced = 0;
                 this.AdvanceTime();
             }
-            else
-            {
-                // light angle should be updated every frame
-                this.UpdateLightAngle(this.CurrentCurveTime + m_timeSinceTimeAdvanced / 60f / 24f);
-            }
         }
 
         void AdvanceTime()
@@ -117,7 +116,7 @@ namespace SanAndreasUnity.Behaviours.World
             m_timeSinceTimeAdvanced = 0;
             this.TimeWhenTimeWasSet = Time.time;
 
-            float curveTime = this.CurrentCurveTime;
+            float curveTime = this.CurrentCurveTimeStepped;
 
             float lightIntensity = this.lightIntensityCurve.Evaluate(curveTime);
             bool isNight = lightIntensity <= 0;
@@ -152,7 +151,8 @@ namespace SanAndreasUnity.Behaviours.World
         float UpdateLightAngle(float curveTime)
         {
             float lightAngle = this.lightAngleCurve.Evaluate(curveTime) * 180f;
-            this.directionalLight.transform.rotation = Quaternion.AngleAxis(lightAngle, Vector3.right);
+            this.directionalLight.transform.rotation =
+                Quaternion.AngleAxis(lightAngle, Vector3.right) * Quaternion.AngleAxis(this.lightYAngle, Vector3.up);
             return lightAngle;
         }
 

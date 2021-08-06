@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using SanAndreasUnity.Utilities;
@@ -22,10 +23,17 @@ namespace SanAndreasUnity.UI {
 
 		public abstract class Input
 		{
+			public string serializationName = "";
 			public string description = "";
 			public InputPersistType persistType = InputPersistType.None;
 			public string category = "";
 			public System.Func<bool> isAvailable = () => true;
+
+			public string FinalSerializationName => string.IsNullOrWhiteSpace(this.serializationName)
+				? (string.IsNullOrWhiteSpace(this.description)
+					? throw new ArgumentException("You must specify serialization name or description")
+					: this.description)
+				: this.serializationName;
 
 			public abstract void Load ();
 			public abstract void Save ();
@@ -53,7 +61,7 @@ namespace SanAndreasUnity.UI {
 				this.description = description;
 			}
 
-			public override void Display ()
+			public sealed override void Display ()
 			{
 				if (!this.isAvailable ())
 					return;
@@ -70,12 +78,12 @@ namespace SanAndreasUnity.UI {
 
 			public abstract T Display (T currentValue);
 
-			public override void Load () {
+			public sealed override void Load () {
 				if (!this.isAvailable ())
 					return;
-				if (!PlayerPrefs.HasKey (this.description))
+				if (!PlayerPrefs.HasKey (this.FinalSerializationName))
 					return;
-				string str = PlayerPrefs.GetString (this.description, null);
+				string str = PlayerPrefs.GetString (this.FinalSerializationName, null);
 				if (str != null)
 				{
 					this.setValue (this.Load (str));
@@ -83,34 +91,40 @@ namespace SanAndreasUnity.UI {
 			}
 			public abstract T Load (string str);
 
-			public override void Save () {
+			public sealed override void Save ()
+			{
 				if (!this.isAvailable ())
 					return;
-				string str = this.SaveAsString (this.getValue ());
+
+				T currentValue = this.getValue();
+				if (currentValue.Equals(this.defaultValue) && !PlayerPrefs.HasKey(this.FinalSerializationName))
+					return;
+
+				string str = this.SaveAsString (currentValue);
 				if (str != null)
-					PlayerPrefs.SetString (this.description, str);
+					PlayerPrefs.SetString (this.FinalSerializationName, str);
 			}
 
 			public virtual string SaveAsString (T value) {
 				return value.ToString ();
 			}
 
-			public override void SetValueNonGeneric(object value)
+			public sealed override void SetValueNonGeneric(object value)
 			{
 				this.setValue((T)value);
 			}
 
-			public override object GetValueNonGeneric()
+			public sealed override object GetValueNonGeneric()
 			{
 				return this.getValue();
 			}
 
-			public override void SetDefaultValueNonGeneric(object value)
+			public sealed override void SetDefaultValueNonGeneric(object value)
 			{
 				this.defaultValue = (T) value;
 			}
 
-			public override object GetDefaultValueNonGeneric()
+			public sealed override object GetDefaultValueNonGeneric()
 			{
 				return this.defaultValue;
 			}
@@ -197,6 +211,28 @@ namespace SanAndreasUnity.UI {
 			public override bool Load (string str)
 			{
 				return bool.Parse (str);
+			}
+		}
+
+		public class StringInput : Input<string>
+		{
+			public int displayWidth = 200;
+			public int maxNumCharacters = 0;
+
+			public override string Display(string currentValue)
+			{
+				GUILayout.BeginHorizontal();
+				GUILayout.Label(this.description + ":");
+				GUILayout.Space(5);
+				currentValue = GUILayout.TextField(currentValue, this.maxNumCharacters, GUILayout.Width(this.displayWidth));
+				GUILayout.FlexibleSpace();
+				GUILayout.EndHorizontal();
+				return currentValue;
+			}
+
+			public override string Load(string str)
+			{
+				return str;
 			}
 		}
 

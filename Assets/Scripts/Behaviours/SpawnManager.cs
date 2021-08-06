@@ -58,11 +58,13 @@ namespace SanAndreasUnity.Behaviours
 
         public static Transform GetSpawnFocusPos()
         {
-            if (Ped.Instance)
-                return Ped.Instance.transform;
+            var ped = Ped.Instance;
+            if (ped != null)
+                return ped.transform;
 
-            if (Camera.main)
-                return Camera.main.transform;
+            var cam = Camera.main;
+            if (cam != null)
+                return cam.transform;
 
             return null;
         }
@@ -87,9 +89,13 @@ namespace SanAndreasUnity.Behaviours
 
         public static bool GetSpawnPositionFromFocus(Transform focusPos, out TransformDataStruct transformData)
         {
-            transformData = new TransformDataStruct(
-                focusPos.position + Random.insideUnitCircle.ToVector3XZ() * 15f,
-                Quaternion.Euler(0f, Random.Range(0f, 360f), 0f));
+            if (Player.AllPlayersList.Count <= 1)
+                // if there is only 1 player, always spawn him on the same place - no randomization
+                transformData = new TransformDataStruct(focusPos);
+            else
+                transformData = new TransformDataStruct(
+                    focusPos.position + Random.insideUnitCircle.ToVector3XZ() * 15f,
+                    Quaternion.Euler(0f, Random.Range(0f, 360f), 0f));
 
             return true;
         }
@@ -139,7 +145,7 @@ namespace SanAndreasUnity.Behaviours
 
             TransformDataStruct transformData;
 
-            foreach (var player in Player.AllPlayers)
+            foreach (var player in Player.AllPlayersCopy)
             {
                 if (this.GetSpawnPositionFromHandler(player, out transformData))
                     SpawnPlayer(player, transformData);

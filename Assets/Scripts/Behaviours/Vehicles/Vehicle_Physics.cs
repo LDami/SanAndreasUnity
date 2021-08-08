@@ -21,6 +21,11 @@ namespace SanAndreasUnity.Behaviours.Vehicles
         [Range(0, 1)]
         public float Braking = 1f;
 
+		public int Gear;
+		public int MaxGears;
+		public float CurrVelocity;
+		public float MaxVelocity;
+
         public Vector3 Velocity { get { return _rigidBody.velocity; } }
 
         public float AverageWheelHeight { get { return _wheels.Count == 0 ? transform.position.y : _wheels.Average(x => x.Child.position.y); } }

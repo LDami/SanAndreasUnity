@@ -172,6 +172,7 @@ namespace SanAndreasUnity.Behaviours.Vehicles
             this.NetTransform = this.GetComponent<Mirror.NetworkTransform>();
             _props = new MaterialPropertyBlock();
             this.Awake_Damage();
+			this.Awake_SFX();
             this.Awake_Radio();
         }
 
@@ -198,6 +199,8 @@ namespace SanAndreasUnity.Behaviours.Vehicles
         void Start()
         {
             this.ApplySyncRate(VehicleManager.Instance.vehicleSyncRate);
+
+			this.Start_SFX();
 
             this.Start_Radio();
 
@@ -528,7 +531,14 @@ namespace SanAndreasUnity.Behaviours.Vehicles
 
             this.Update_Damage();
 
-            this.Update_Radio();
+			this.Gear = (int)(this.RigidBody.velocity.magnitude / ((this.HandlingData.TransmissionMaxVel/3) / this.HandlingData.TransmissionGears)) + 1;
+			this.MaxGears = this.HandlingData.TransmissionGears;
+			this.CurrVelocity = this.RigidBody.velocity.magnitude;
+			this.MaxVelocity = this.HandlingData.TransmissionMaxVel;
+
+			this.Update_SFX();
+
+            //this.Update_Radio();
 
             this.UpdateHighDetailMeshes();
 

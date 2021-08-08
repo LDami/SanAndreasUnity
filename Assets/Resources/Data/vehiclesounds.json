@@ -1,0 +1,38 @@
+[
+	{
+		"vehicles": [
+			401,
+			527,
+			562,
+			587
+		],
+		"accelerate": {
+			"bank": 2,
+			"sfx": 3
+		},
+		"decelerate": {
+			"bank": 1,
+			"sfx": 2
+		},
+	},
+	{
+		"vehicles": [
+			536,
+			518,
+			542,
+			567
+		],
+		"idle": {
+			"bank": 38,
+			"sfx": 1
+		},
+		"accelerate": {
+			"bank": 39,
+			"sfx": 0
+		},
+		"decelerate": {
+			"bank": 38,
+			"sfx": 0
+		},
+	},
+]

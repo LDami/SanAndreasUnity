@@ -34,9 +34,9 @@ namespace SanAndreasUnity.Behaviours.Vehicles
 			Sounds.VehicleSound vehicleSound = Sounds.GetVehicleSound(this.Definition.Id);
 
 			startingEngineSound = AudioManager.CreateAudioClipFromSfx("GENRL", 132, 38);
-			idleEngineSound = AudioManager.CreateAudioClipFromSfx("GENRL", vehicleSound.Idle.Bank, vehicleSound.Idle.Sfx);
-			accelEngineSound = AudioManager.CreateAudioClipFromSfx("GENRL", vehicleSound.Accelerate.Bank, vehicleSound.Accelerate.Sfx);
-			decelEngineSound = AudioManager.CreateAudioClipFromSfx("GENRL", vehicleSound.Decelerate.Bank, vehicleSound.Decelerate.Sfx);
+			idleEngineSound = AudioManager.CreateAudioClipFromSfx("GENRL", vehicleSound.Idle.Bank-1, 1);
+			accelEngineSound = AudioManager.CreateAudioClipFromSfx("GENRL", vehicleSound.Accelerate.Bank-1, 0);
+			decelEngineSound = AudioManager.CreateAudioClipFromSfx("GENRL", vehicleSound.Decelerate.Bank-1, 0);
 
 			EngineAudioSource.PlayOneShot(startingEngineSound);
 			EngineAudioSource.loop = true;

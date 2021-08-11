@@ -1,10 +1,19 @@
 [
 	{
+		//Bravura, Cadrona, Elegy, Euros, Merit, Mesa, Nebula, Previon, Primo, Solair, Uranus, ZR-350
 		"vehicles": [
 			401,
 			527,
 			562,
-			587
+			587,
+			551,
+			500,
+			516,
+			436,
+			547,
+			458,
+			558,
+			477
 		],
 		"accelerate": {
 			"bank": 2,
@@ -15,6 +24,478 @@
 			"sfx": 2
 		},
 	},
+	{
+		//Baggage, Tug
+		"vehicles": [
+			485,
+			583
+		],
+		"accelerate": {
+			"bank": 5,
+			"sfx": 3
+		},
+		"decelerate": {
+			"bank": 4,
+			"sfx": 2
+		},
+	},
+	{
+		//Bullet, Glendale, Trashed Glendale, Oceanic, Tornado
+		"vehicles": [
+			541,
+			466,
+			604,
+			467,
+			576
+		],
+		"accelerate": {
+			"bank": 11,
+			"sfx": 3
+		},
+		"decelerate": {
+			"bank": 10,
+			"sfx": 2
+		},
+	},
+	{
+		//Bike, BMX, Mountain Bike
+		"vehicles": [
+			509,
+			481,
+			510
+		],
+		"accelerate": {
+			"bank": 13,
+			"sfx": 5
+		},
+		"decelerate": {
+			"bank": 12,
+			"sfx": 2
+		},
+	},
+	{
+		//Coastguard, Dinghy, Jetmax, Launch, Marquis, Predator, Reefer, Speeder, Squalo, Tropic
+		"vehicles": [
+			//TODO
+		],
+		"accelerate": {
+			"bank": 16,
+			"sfx": 1
+		},
+		"decelerate": {
+			"bank": 15,
+			"sfx": 1
+		},
+	},
+	{
+		//Cabbie, Fortune, Intruder, Picador, Sunrise, Vincent, Willard, Yosemite
+		"vehicles": [
+			438,
+			526,
+			546,
+			600,
+			550,
+			540,
+			529,
+			554
+		],
+		"accelerate": {
+			"bank": 20,
+			"sfx": 2
+		},
+		"decelerate": {
+			"bank": 19,
+			"sfx": 3
+		},
+	},
+	{
+		//Bus, Coach, DFT-30
+		"vehicles": [
+			431,
+			437,
+			578
+		],
+		"accelerate": {
+			"bank": 27,
+			"sfx": 2
+		},
+		"decelerate": {
+			"bank": 26,
+			"sfx": 3
+		},
+	},
+	{
+		//Broadway, Hermes, Remington
+		"vehicles": [
+			575, 474, 534
+		],
+		"accelerate": {
+			"bank": 29,
+			"sfx": 2
+		},
+		"decelerate": {
+			"bank": 28,
+			"sfx": 3
+		},
+	},
+	{
+		//Alpha, Buffalo, Hotring Racer (A), Hotring Racer (B), Infernus
+		"vehicles": [
+			602, 402, 502, 503, 411
+		],
+		"accelerate": {
+			"bank": 32,
+			"sfx": 2
+		},
+		"decelerate": {
+			"bank": 31,
+			"sfx": 3
+		},
+	},
+	{
+		//HPV1000, Wayfarer
+		"vehicles": [
+			461, 586
+		],
+		"accelerate": {
+			"bank": 35,
+			"sfx": 2
+		},
+		"decelerate": {
+			"bank": 34,
+			"sfx": 3
+		},
+	},
+	{
+		//Blade, Buccaneer, Clover, Sabre, Savanna, Stallion, Voodoo
+		"vehicles": [
+			536, 518, 542, 475, 567, 439, 412
+		],
+		"accelerate": {
+			"bank": 40,
+			"sfx": 2
+		},
+		"decelerate": {
+			"bank": 39,
+			"sfx": 3
+		},
+	},
+	{
+		//Quadbike, Sanchez
+		"vehicles": [
+			438, 468
+		],
+		"accelerate": {
+			"bank": 42,
+			"sfx": 2
+		},
+		"decelerate": {
+			"bank": 41,
+			"sfx": 3
+		},
+	},
+	{
+		//Forklift
+		"vehicles": [
+			530
+		],
+		"accelerate": {
+			"bank": 52,
+			"sfx": 2
+		},
+		"decelerate": {
+			"bank": 51,
+			"sfx": 3
+		},
+	},
+	{
+		//Kart, Mower
+		"vehicles": [
+			571, 572
+		],
+		"accelerate": {
+			"bank": 55,
+			"sfx": 2
+		},
+		"decelerate": {
+			"bank": 56,
+			"sfx": 3
+		},
+	},
+	{
+		//Caddy
+		"vehicles": [
+			457
+		],
+		"accelerate": {
+			"bank": 57,
+			"sfx": 2
+		},
+		"decelerate": {
+			"bank": 58,
+			"sfx": 3
+		},
+	},
+	{
+		//Combine Harvester
+		"vehicles": [
+			532
+		],
+		"accelerate": {
+			"bank": 63,
+			"sfx": 2
+		},
+		"decelerate": {
+			"bank": 62,
+			"sfx": 3
+		},
+	},
+	{
+		//Bloodring Banger, Monster (all 3 types)
+		"vehicles": [
+			504,
+			444,
+			556,
+			557
+		],
+		"accelerate": {
+			"bank": 65,
+			"sfx": 2
+		},
+		"decelerate": {
+			"bank": 64,
+			"sfx": 3
+		},
+	},
+	{
+		//BF Injection, Hotknife, Hustler, Slamvan
+		"vehicles": [
+			424, 434, 545, 535
+		],
+		"accelerate": {
+			"bank": 70,
+			"sfx": 2
+		},
+		"decelerate": {
+			"bank": 69,
+			"sfx": 3
+		},
+	},
+	{
+		//Vortex
+		"vehicles": [
+			539
+		],
+		"accelerate": {
+			"bank": 72,
+			"sfx": 2
+		},
+		"decelerate": {
+			"bank": 71,
+			"sfx": 3
+		},
+	},
+	{
+		//Barracks, Dune, Enforcer, FBI Truck, Flatbed, S.W.A.T., Trashmaster
+		"vehicles": [
+			433, 414, 427, 528, 455, 601, 408
+		],
+		"accelerate": {
+			"bank": 75,
+			"sfx": 2
+		},
+		"decelerate": {
+			"bank": 74,
+			"sfx": 3
+		},
+	},
+	{
+		//Benson, Cement Truck, Dumper, Fire Truck (both types), Linerunner, Packer, Rhino, Roadtrain, Tanker
+		"vehicles": [
+			499, 524, 406, 407, 544, 403, 443, 432, 515, 443
+		],
+		"accelerate": {
+			"bank": 78,
+			"sfx": 2
+		},
+		"decelerate": {
+			"bank": 77,
+			"sfx": 3
+		},
+	},
+	{
+		//Admiral, Elegant, Emperor, Police (all 3 types), Premier, Sentinel, Stafford, Stratum, Stretch, Sultan, Taxi
+		"vehicles": [
+			445, 507, 585, 596, 597, 598, 426, 405, 580, 561, 409, 560, 420
+		],
+		"accelerate": {
+			"bank": 81,
+			"sfx": 2
+		},
+		"decelerate": {
+			"bank": 80,
+			"sfx": 3
+		},
+	},
+	{
+		//Dozer, Tractor, Walton
+		"vehicles": [
+			486, 531, 478
+		],
+		"accelerate": {
+			"bank": 83,
+			"sfx": 2
+		},
+		"decelerate": {
+			"bank": 82,
+			"sfx": 3
+		},
+	},
+	{
+		//Blista Compact, Club, Esperanto, Feltzer, Flash, Jester, Majestic, Tahoma
+		"vehicles": [
+			496, 589, 419, 533, 565, 559, 517, 566
+		],
+		"accelerate": {
+			"bank": 87,
+			"sfx": 2
+		},
+		"decelerate": {
+			"bank": 86,
+			"sfx": 3
+		},
+	},
+	{
+		//Bobcat, Greenwood, Manana, Moonbeam, Perennial, Regina, Romero, Sadler, Trashed Sadler, Tampa, Virgo, Washington
+		"vehicles": [
+			422, 492, 410, 418, 404, 479, 442, 543, 605, 549, 491, 421
+		],
+		"idle": {
+			"bank": 88,
+			"sfx": 1
+		},
+		"accelerate": {
+			"bank": 89,
+			"sfx": 0
+		},
+		"decelerate": {
+			"bank": 88,
+			"sfx": 0
+		},
+	},
+	{
+		//FBI Rancher, Huntley, Landstalker, Patriot, Rancher (both types), Ranger, Sandking
+		"vehicles": [
+			490, 579, 400, 470, 489, 505, 495
+		],
+		"accelerate": {
+			"bank": 93,
+			"sfx": 2
+		},
+		"decelerate": {
+			"bank": 92,
+			"sfx": 3
+		},
+	},
+	{
+		//Hotring Racer (C), Phoenix, Windsor
+		"vehicles": [
+			494, 603, 555
+		],
+		"accelerate": {
+			"bank": 95,
+			"sfx": 2
+		},
+		"decelerate": {
+			"bank": 94,
+			"sfx": 3
+		},
+	},
+	{
+		//Banshee, Cheetah, Comet, Super GT, Turismo
+		"vehicles": [
+			429, 415, 480, 506, 451
+		],
+		"accelerate": {
+			"bank": 97,
+			"sfx": 2
+		},
+		"decelerate": {
+			"bank": 96,
+			"sfx": 3
+		},
+	},
+	{
+		//Bandito, FCR-900
+		"vehicles": [
+			568, 521
+		],
+		"accelerate": {
+			"bank": 109,
+			"sfx": 2
+		},
+		"decelerate": {
+			"bank": 108,
+			"sfx": 3
+		},
+	},
+	{
+		//Faggio, Pizza Boy, RC Bandit
+		"vehicles": [
+			462, 448, 441
+		],
+		"accelerate": {
+			"bank": 113,
+			"sfx": 2
+		},
+		"decelerate": {
+			"bank": 112,
+			"sfx": 3
+		},
+	},
+	{
+		//BF-400, NRG-500, PCJ-600
+		"vehicles": [
+			581, 522, 461
+		],
+		"accelerate": {
+			"bank": 119,
+			"sfx": 2
+		},
+		"decelerate": {
+			"bank": 118,
+			"sfx": 3
+		},
+	},
+	{
+		//Sweeper
+		"vehicles": [
+			574
+		],
+		"accelerate": {
+			"bank": 121,
+			"sfx": 3
+		},
+		"decelerate": {
+			"bank": 120,
+			"sfx": 3
+		},
+	},
+	{
+		//Sweeper
+		"vehicles": [
+			574
+		],
+		"accelerate": {
+			"bank": 121,
+			"sfx": 2
+		},
+		"decelerate": {
+			"bank": 120,
+			"sfx": 3
+		},
+	},
+	/*
 	{
 		"vehicles": [
 			536,
@@ -35,4 +516,5 @@
 			"sfx": 0
 		},
 	},
+	*/
 ]
